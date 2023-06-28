@@ -30,7 +30,23 @@ const getUsers = (req, res) => {
       });
   };
 
+  const postUserCreation = (req, res) => {
+    const { firstname, lastname, email, city, language } = req.body;
+
+    database
+      .query("INSERT IGNORE INTO users (firstname, lastname, email, city, language) VALUES (?, ?, ?, ?, ?)", [firstname, lastname, email, city, language])
+      .then((result) => {
+        const userId = result.insertId;
+        res.status(201).json({ id: userId, message: "User created successfully"});
+      })
+      .catch((err) => {
+        console.error(err);
+        res.status(500).send("Error inserting data into databse");
+      });
+  };
+
   module.exports = {
     getUsers,
     getUserById,
+    postUserCreation,
   };
