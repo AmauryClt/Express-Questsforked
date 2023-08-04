@@ -57,10 +57,10 @@ const getUsers = (req, res) => {
   };
 
   const postUserCreation = (req, res) => {
-    const { firstname, lastname, email, city, language } = req.body;
+    const { firstname, lastname, email, city, language, hashedPassword } = req.body;
 
     database
-      .query("INSERT INTO users (firstname, lastname, email, city, language) VALUES (?, ?, ?, ?, ?)", [firstname, lastname, email, city, language])
+      .query("INSERT INTO users (firstname, lastname, email, city, language, hashedPassword) VALUES (?, ?, ?, ?, ?, ?)", [firstname, lastname, email, city, language, hashedPassword])
       .then((result) => {
         const userId = result.insertId;
         res.status(201).json({ id: userId, message: "User created successfully"});
